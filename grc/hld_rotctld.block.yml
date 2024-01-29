@@ -1,0 +1,45 @@
+id: hld_rotctld
+label: rotctld
+category: '[hld]'
+
+templates:
+  imports: from gnuradio import hld
+  make: hld.rotctld(${parent}, ${addr}, ${port})
+  make: |-
+    rotctld_instance = hld.rotctld(self, ${addr}, ${port})
+    rotctld_instance.server.azimuth_signal.connect(getattr(self, 'set_' + ${azimuth_var}))
+    rotctld_instance.server.elevation_signal.connect(getattr(self, 'set_' + ${elevation_var}))
+    rotctld_instance.server.start()
+
+documentation: |-
+    rotctld server
+
+parameters:
+-   id: addr
+    label: Address
+    dtype: string
+    default: 'localhost'
+-   id: port
+    label: Port
+    dtype: int
+    default: 4533
+-   id: azimuth_var
+    label: Azimuth variable
+    dtype: string
+    default: 'azimuth'
+-   id: elevation_var
+    label: Elevation variable
+    dtype: string
+    default: 'elevation'
+
+inputs:
+
+outputs:
+-   domain: message
+    id: azimuth
+    optional: true
+-   domain: message
+    id: elevation
+    optional: true
+
+file_format: 1

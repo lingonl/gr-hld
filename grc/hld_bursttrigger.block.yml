@@ -1,0 +1,50 @@
+id: hld_bursttrigger
+label: bursttrigger
+category: '[hld]'
+
+templates:
+  imports: from gnuradio import hld
+  make: hld.bursttrigger()
+
+documentation: |-
+    AOS/LOS Burst trigger
+
+parameters:
+-   id: azimuth_min
+    label: Azimuth min
+    dtype: float
+    default: -180.0
+-   id: azimuth_max
+    label: Azimuth max
+    dtype: float
+    default: 540.0
+-   id: elevation_min
+    label: Elevation min
+    dtype: float
+    default: -20.0
+-   id: elevation_max
+    label: Elevation max
+    dtype: float
+    default: 210.0
+
+inputs:
+-   domain: message
+    id: acquired
+    optional: false
+-   domain: message
+    id: azimuth
+    optional: false
+-   domain: message
+    id: elevation
+    optional: false
+
+outputs:
+-   label: trigger
+    domain: stream
+    dtype: short
+    vlen: 1
+-   domain: message
+    id: state
+    optional: true
+
+file_format: 1

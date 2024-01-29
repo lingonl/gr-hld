@@ -1,0 +1,60 @@
+id: hld_rigctld
+label: rigctld
+category: '[hld]'
+
+templates:
+  imports: from gnuradio import hld
+  make: hld.rigctld(${parent}, ${addr}, ${port}, ${baseband_width})
+  make: |-
+    rigctld_instance = hld.rigctld(self, ${addr}, ${port}, ${baseband_width})
+    rigctld_instance.server.freq_signal.connect(getattr(self, 'set_' + ${freq_var}))
+    rigctld_instance.server.baseband_signal.connect(getattr(self, 'set_' + ${baseband_var}))
+    rigctld_instance.server.offset_signal.connect(getattr(self, 'set_' + ${offset_var}))
+    rigctld_instance.server.start()
+
+documentation: |-
+    Rigctld server
+
+parameters:
+-   id: addr
+    label: Address
+    dtype: string
+    default: 'localhost'
+-   id: port
+    label: Port
+    dtype: int
+    default: 7356
+-   id: baseband_width
+    label: Baseband width
+    dtype: int
+    default: 1000000
+-   id: freq_var
+    label: Frequency variable
+    dtype: string
+    default: 'freq'
+-   id: baseband_var
+    label: Baseband variable
+    dtype: string
+    default: 'baseband'
+-   id: offset_var
+    label: Offset variable
+    dtype: string
+    default: 'offset'
+
+inputs:
+
+outputs:
+-   domain: message
+    id: freq
+    optional: true
+-   domain: message
+    id: baseband
+    optional: true
+-   domain: message
+    id: offset
+    optional: true
+-   domain: message
+    id: acquired
+    optional: true
+
+file_format: 1
